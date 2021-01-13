@@ -2,6 +2,7 @@ import context
 context.init()
 
 from chessbot.cvutil.find_chessboard import find_chessboard
+from chessbot.cvutil.transform import four_point_transform
 import numpy as np
 import argparse
 import imutils
@@ -20,4 +21,9 @@ if image is None:
 print("[INFO] identifying chessboard...")
 
 # mask_to_whitebg(image)
-find_chessboard(image, threshold=80, lineThreshold=150, filterStrength=150, debug=True)
+retVal, corners = find_chessboard(image.copy(), threshold=80, lineThreshold=150, filterStrength=150, debug=False)
+
+# find the four outer corners, warp to that
+warped = four_point_transform(image.copy(), [corners[0], corners[8], corners[72], corners[80]], 400)
+cv2.imshow("Warped", warped)
+cv2.waitKey(0)

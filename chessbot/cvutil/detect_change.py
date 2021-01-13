@@ -1,4 +1,4 @@
-from .align_images import align_images
+from .align import align_images
 import numpy as np
 import imutils
 import cv2

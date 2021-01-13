@@ -72,13 +72,16 @@ def find_square_corners(image, lines_x, lines_y):
             iy = ((x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4)) / ((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4))
             corners.append([int(ix), int(iy)])
     
-    for c in corners:
+    corners.sort(key = lambda c: (c[1], c[0]))
+
+    for i, c in enumerate(corners):
         cv2.circle(image, (c[0], c[1]), 3, (255, 0, 0), -1)
+        cv2.putText(image, str(i), (c[0], c[1]), cv2.LINE_AA, 1, (0, 255, 0))
 
     cv2.imshow("Chessboard Corners", image)
     cv2.waitKey(0)
 
-    print("[INFO] Done!")
+    # print("[INFO] Found corners!")
     
     return corners
 
@@ -136,7 +139,7 @@ def find_chessboard(image, threshold=100, lineThreshold=100, filterStrength=100,
     
     if not retVal:
         print("[INFO] No chess board found")
-        return False
+        return (False, None)
     
     rImage = image.copy()
     for i in [lines_x, lines_y]:
@@ -148,6 +151,6 @@ def find_chessboard(image, threshold=100, lineThreshold=100, filterStrength=100,
     cv2.imshow("Hough Line Detection", rImage)
     cv2.waitKey(0)
 
-    find_square_corners(image, lines_x, lines_y)
-    
-    return True
+    corners = find_square_corners(image, lines_x, lines_y)
+
+    return (True, corners)

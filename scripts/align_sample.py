@@ -1,7 +1,7 @@
 import context
 context.init()
 
-from chessbot.cvutil.align_images import align_images
+from chessbot.cvutil.align import align_images
 from chessbot.cvutil.detect_change import detect_change
 import numpy as np
 import argparse
