@@ -89,7 +89,7 @@ class HoughBundler:
         'Clusterize (group) lines'
         groups = []  # all lines groups are here
         # Parameters to play with
-        min_distance_to_merge = 30
+        min_distance_to_merge = 100 # set to 30 for original chessboard detection
         min_angle_to_merge = 30
         # first line will create new group every time
         groups.append([lines[0]])
@@ -159,13 +159,8 @@ class HoughBundler:
             avg[1] = int(avg[1] / len(points))
 
         return [avg_start, avg_end]
-
-    def process_lines(self, lines, img):
-        '''Main function for lines from cv.HoughLinesP() output merging
-        for OpenCV 3
-        lines -- cv.HoughLinesP() output
-        img -- binary image
-        '''
+    
+    def separate_xy_lines(self, lines):
         lines_x = []
         lines_y = []
         # for every line of cv2.HoughLinesP()
@@ -179,6 +174,16 @@ class HoughBundler:
 
         lines_y = sorted(lines_y, key=lambda line: line[1])
         lines_x = sorted(lines_x, key=lambda line: line[0])
+
+        return lines_x, lines_y
+
+    def process_lines(self, lines, img):
+        '''Main function for lines from cv.HoughLinesP() output merging
+        for OpenCV 3
+        lines -- cv.HoughLinesP() output
+        img -- binary image
+        '''
+        lines_x, lines_y = self.separate_xy_lines(lines)
         merged_lines_all = []
 
         # for each cluster in vertical and horizantal lines leave only one line

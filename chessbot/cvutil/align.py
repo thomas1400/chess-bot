@@ -28,7 +28,7 @@ def align_images(image, template, maxFeatures=500, keepPercent=0.2, debug=False)
 
     if debug:
         matchedVis = cv2.drawMatches(image, kpsA, template, kpsB, matches, None)
-        matchesVis = imutils.resize(matchedVis, width=1000)
+        # matchesVis = imutils.resize(matchedVis, width=1000)
         cv2.imshow("Matched Keypoints", matchedVis)
         cv2.waitKey(0)
 
