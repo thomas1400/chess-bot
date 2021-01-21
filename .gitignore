@@ -131,6 +131,7 @@ dmypy.json
 # Unused images
 images/nobackground
 images/whitebg-bwboard
+images/foldingboard
 
 # VSCode stuff
 .vscode
