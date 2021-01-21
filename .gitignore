@@ -135,3 +135,6 @@ images/foldingboard
 
 # VSCode stuff
 .vscode
+
+# archived code
+/archive

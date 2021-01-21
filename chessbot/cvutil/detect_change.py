@@ -1,7 +1,4 @@
-from .align import align_images
-from skimage.metrics import structural_similarity as ssim
 import numpy as np
-import imutils
 import cv2
 
 def gray_to_bwg(gray, w_thresh=225, b_thresh=30):
@@ -12,6 +9,7 @@ def gray_to_bwg(gray, w_thresh=225, b_thresh=30):
     bwg = np.ones((gray.shape), np.uint8) * 122
     bwg = cv2.bitwise_and(bwg, b_img)
     bwg = cv2.bitwise_or(bwg, w_img)
+    return bwg
 
 def detect_change(change, baseline, minArea=400, minWidth=15, minHeight=15):
 

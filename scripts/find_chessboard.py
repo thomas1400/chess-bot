@@ -1,10 +1,9 @@
 import context
 context.init()
 
-from chessbot.cvutil.find_chessboard import crop_to_chessboard
+from chessbot.cvutil.chessboard_cv import crop_to_chessboard
 from chessbot.cvutil.transform import four_point_transform
 from chessbot.cvutil.detect_change import detect_change
-from chessbot.cvutil import align
 import numpy as np
 import argparse
 import imutils
