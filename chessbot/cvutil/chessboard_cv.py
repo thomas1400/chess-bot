@@ -130,3 +130,35 @@ def crop_to_chessboard(image, bin_thresh=180, border_size=3, output_size=600,deb
         cv2.waitKey(0)
     
     return True, warped
+
+def chess_squares_from_diff(chessboard, diff_contours, black_on_top=True):
+    ranks = ["1", "2", "3", "4", "5", "6", "7", "8"]
+    files = ["A", "B", "C", "D", "E", "F", "G", "H"]
+
+    w, h, c = chessboard.shape
+
+    squares_moved = []
+
+    # for each contour, calculate centroid and locate it on the chessboard
+    for contour in diff_contours:
+        M = cv2.moments(contour)
+        cx = int(M['m10']/M['m00'])
+        cy = int(M['m01']/M['m00'])
+
+        percent_w = cx / w
+        percent_h = cy / h
+        
+        rank = None
+        if black_on_top:
+            rank = 7 - int(percent_h * 8)
+        else:    
+            rank = int(percent_h * 8)
+        file = int(percent_w * 8)
+
+        squares_moved.append([file, rank])
+
+        print(files[file] + ranks[rank])
+    
+    return squares_moved
+    
+

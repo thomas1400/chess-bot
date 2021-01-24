@@ -2,6 +2,7 @@ from numpy.lib.function_base import diff
 import context
 context.init()
 
+from chessbot.chess.ChessBoard import ChessBoard
 from chessbot.cvutil.chessboard_cv import crop_to_chessboard, chess_squares_from_diff
 from chessbot.cvutil.transform import four_point_transform
 from chessbot.cvutil.detect_change import detect_change
@@ -24,6 +25,8 @@ if move is None or prev is None:
 
 print("[INFO] identifying chessboards...")
 
+cb = ChessBoard()
+
 # crop images to chessboard
 retMove, cropped_move = crop_to_chessboard(move, debug=False)
 retPrev, cropped_prev = crop_to_chessboard(prev, debug=False)
@@ -39,7 +42,11 @@ if retMove and retPrev:
 
     diff_contours = detect_change(cropped_move, cropped_prev)
 
-    chess_squares_from_diff(cropped_move, diff_contours)
+    print(cb)
+    squares = chess_squares_from_diff(cropped_move, diff_contours)
+    cb.interpret_move(squares)
+    print("---")
+    print(cb)
 
 else:
     print("[ERROR] chessboard not found in one or more image(s)")

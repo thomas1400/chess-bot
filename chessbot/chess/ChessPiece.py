@@ -19,4 +19,10 @@ class ChessPiece:
         self.hasMoved = hasMoved
 
     def __str__(self):
-        return self.type.name[0:2] + "," + self.color.name[0]
+        if self.type != PieceType.KNIGHT:
+            return self.type.name[0] + "," + self.color.name[0]
+        else:
+            return "N" + "," + self.color.name[0]
+
+    def color(self):
+        return self.color
